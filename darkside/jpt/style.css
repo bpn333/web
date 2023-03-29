@@ -1,0 +1,29 @@
+@keyframes shake {
+    0% { background-position: center 0; }
+    25% { background-position: center -100vw; }
+    50% { background-position: center 0; }
+    75% { background-position: center -100vw; }
+    100% { background-position: center 0; }
+  }
+
+  .shake {
+    animation: shake 3s;
+  }
+
+#box{
+	background-color: black;
+	width: 100vw;
+	height: 100vh;
+	background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTixxPjId_SZYK55UFGqujskQ2bQB0AXyzN-rXQJCx_14662I_QfWn2jUY&s=10);
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+#b1{
+	background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcZvz3FBpA5g_ADEREcm8QAFp_KZt3VsPbC-K88B_xLIHwFcmd4Zn9ULM&s=10); 
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	width: 100vw;
+	height: 100vh;
+}
