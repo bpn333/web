@@ -4,8 +4,10 @@ audio.play();
 audio.addEventListener("play", function() {
   b1.style.display = "none";
 });
+box.classList.add("shake");
 
 audio.addEventListener("pause", function() {
-  b1.style.display = "block";
+b1.style.display = "block";
+box.classList.remove("shake");
 });
 });
