@@ -1,0 +1,15 @@
+body{
+	background-color: black;
+}
+#b1{
+	background-color: green;
+	font-size: 100px;
+	align-content: center;
+	width: 100vw;
+	height: 10vh;
+}
+#java{
+	text-align: center;
+	color: white;
+	font-size: 100px;
+}
