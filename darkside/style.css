@@ -1,0 +1,35 @@
+body{
+	background-color: black;
+}
+*{
+	font-size: 10vw;
+	align-content: center;
+	color: red;
+	background: transparent;
+}
+INPUT{
+	background-color: transparent;
+	border: 1vw solid gray;
+	color: white;
+	width: 45vw;
+	height: 10vw;
+}
+button{
+	background-color: transparent;
+	border: 1vw solid blue;
+	width: 42vw;
+	margin: 3vw;
+}
+#java{
+	text-align: center;
+	background: transparent;
+	border: 1vw solid blue;
+	margin: 5vw;
+}
+#border{
+	text-align: center;
+	background: transparent;
+	border: 1vw solid blue;
+	width: 100vw;
+	padding: 10vw;
+}
