@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <title>Random Number Generator</title>
+    <style>
+      body {
+        background-color: black;
+        color: white;
+        font-size: 100px;
+      }
+      #test {
+        width: 100vw;
+        height: 10vh;
+        font-size: 100px;
+        background-color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <center>
+      <button id="test">Random</button>
+      <div id="result"></div>
+    </center>
+    <script>
+      const b1 = document.getElementById("test");
+      const resultNode = document.getElementById("result");
+      b1.addEventListener("click", function () {
+        while (resultNode.lastChild) {
+          resultNode.removeChild(resultNode.lastChild);
+        }
+        
+        const randomNumber = Math.floor(Math.random() * 100);
+        const container = document.createElement("div");
+        const textNode = document.createTextNode(randomNumber);
+        const newline = document.createElement("br");
+        container.appendChild(newline);
+        container.appendChild(textNode);
+        resultNode.appendChild(container);
+      });
+    </script>
+  </body>
+</html>
+
