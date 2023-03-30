@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head><title>just a button</title>
+<style>
+body{
+	background: black;
+	width: 100vw;
+	height: 100vh;
+	font-size: 100px;
+	border: 3px solid blue;
+}
+#b1{
+	position: fixed;
+	bottom: 45vh;
+	left: 35vw;
+	border: 10px solid gray;
+	border-radius: 3000px;
+	width: 30vw;
+	height: 10vh;
+	background-color: yellow;
+	transition: transform 0.5s ease-in;
+	transition: background-color 0.5s ease-in;
+}
+#error{
+	text-align: centre;
+	position: fixed;
+	bottom: 60vh;
+	left: 35vw;
+	color: black;
+}
+</style>
+</head>
+<body>
+<div id="error">click on button</div>
+<button id="b1"></button>
+<script>
+const sound = new Audio("https://www.fesliyanstudios.com/play-mp3/387");
+document.getElementById("b1").addEventListener("click", function() {
+sound.play();
+document.getElementById("b1").style.backgroundColor = "black";
+document.getElementById("b1").style.transform = "scale(0.5)";
+setTimeout( function() {
+document.getElementById("b1").style.backgroundColor = "yellow";
+document.getElementById("b1").style.transform = "scale(1)";
+},500);
+});
+document.body.onclick = function(target){
+if(event.target.id != "b1"){
+document.body.style.backgroundColor = "red";
+setTimeout( function() {
+document.body.style.backgroundColor = "black";
+}, 500);
+}};
+</script>
+</body>
+</html>
