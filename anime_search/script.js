@@ -5,6 +5,7 @@ const animeImage = document.getElementById('animeImage');
 const animeUrl = document.getElementById('animeUrl');
 const resultsContainer = document.querySelector('.results');
 const suggestionsContainer = document.getElementById('suggestions');
+animeUrl.style.display = "none";
 // Event listener for keydown on searchInput
 searchInput.addEventListener('input', event => {
     const keyword = searchInput.value.trim();
@@ -63,10 +64,12 @@ function performSearch(query) {
         .then(response => response.json())
         .then(data => {
             if (data.results && data.results.length > 0) {
-                const firstResult = data.results[0];
+                firstResult = data.results[0];
                 animeName.innerHTML = `<h1>${firstResult.title}</h1>`;
                 animeImage.src = firstResult.image;
-                animeUrl.href = firstResult.url;
+                animeUrl.style.display = "block";
+                animeid = `https://api.consumet.org/anime/gogoanime/info/${firstResult.id}`;
+                //animeUrl.href = firstResult.url;
                 //document.body.style.backgroundImage = `url('${firstResult.image}')`;
             } else {
                 animeName.textContent = 'No results found.';
@@ -82,3 +85,44 @@ function performSearch(query) {
             animeImage.src = '';
         });
 }
+animeUrl.addEventListener('click', () => {
+    document.querySelector('.container').innerHTML = '';
+    fetch(animeid)
+    .then(response => response.json())
+    .then(data => {
+      const episodes = data.episodes;
+  
+      if (episodes && episodes.length > 0) {
+        console.log('List of episode numbers:');
+        episodes.forEach(episode => {
+          console.log(episode.number);
+          const episodeDiv = document.createElement('div');
+          episodeDiv.classList.add('episodes');
+          episodeDiv.textContent = episode.number;
+          
+          episodeDiv.addEventListener('click', () => {
+            console.log('Clicked episode number:', episode.number);
+            vidLink = `https://api.consumet.org/anime/gogoanime/watch/${firstResult.id}-episode-${episode.number}`;
+            fetch(vidLink)
+            .then(response => response.json())
+            .then(data => {
+            const headers = data.headers;
+            const referer = headers.Referer;
+
+            window.location.href = referer;
+            })
+            .catch(error => {
+            console.error('Error fetching data:', error);
+            });
+          });
+          
+          document.querySelector('.container').appendChild(episodeDiv);
+        });
+      } else {
+        console.log('No episodes found.');
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+});
