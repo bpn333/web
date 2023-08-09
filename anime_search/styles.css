@@ -8,6 +8,8 @@ body {
     align-items: center;
     min-height: 100vh;
     background-color: #1b1b1b;
+    background-size: cover;
+    background-position: center;
 }
 
 .container {
@@ -29,7 +31,7 @@ body {
 
 input[type="text"] {
     padding: 10px;
-    border: 1px solid #c98989;
+    border: 1px solid #0aef43;
     border-radius: 4px;
 }
 
@@ -56,15 +58,22 @@ button {
 }
 
 #animeName {
-    color: red;
-    background-color: pink;
-    border-radius: 1in;
+    color: rgb(255, 17, 0);
+    text-decoration: solid;
     border: #007bff;
 }
 
 #animeImage {
-    max-width: 300px;
-    margin-top: 20px;
+    width: 400px;
+}
+
+#suggestions {
+    color: aquamarine;
+}
+
+.suggestion {
+    padding: 5px;
+    border-color: red;
 }
 
 .dark-background {

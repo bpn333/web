@@ -7,9 +7,16 @@ const resultsContainer = document.querySelector('.results');
 const suggestionsContainer = document.getElementById('suggestions');
 
 // Event listener for keydown on searchInput
-searchInput.addEventListener('input', () => {
+searchInput.addEventListener('input', event => {
     const keyword = searchInput.value.trim();
-
+    if (event.key === 'Enter') {
+        const clickEvent = new MouseEvent('click', {
+            bubbles: true,
+            cancelable: true,
+            view: window
+        });
+        searchButton.dispatchEvent(clickEvent);
+    }
     if (keyword !== '') {
         // Simulate fetching suggestions based on the keyword
         const apiUrl = `https://api.consumet.org/anime/gogoanime/${keyword}?page=1`;
@@ -65,9 +72,10 @@ function performSearch(query) {
         .then(data => {
             if (data.results && data.results.length > 0) {
                 const firstResult = data.results[0];
-                animeName.textContent = firstResult.title;
+                animeName.innerHTML = `<h1>${firstResult.title}</h1>`;
                 animeImage.src = firstResult.image;
                 animeUrl.href = firstResult.url;
+                document.body.style.backgroundImage = `url('${firstResult.image}')`;
             } else {
                 animeName.textContent = 'No results found.';
                 animeImage.src = '';
