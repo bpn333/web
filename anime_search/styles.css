@@ -78,6 +78,7 @@ button {
 .suggestion {
     padding: 5px;
     border-color: red;
+    cursor: pointer;
 }
 
 .dark-background {
@@ -118,6 +119,7 @@ button {
     color: limegreen;
     filter: saturate(30);
     font-size: xx-large;
+    cursor: pointer;
 }
 #videoplayer {
     margin-top: 3vh;
