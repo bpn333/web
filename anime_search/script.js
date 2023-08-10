@@ -143,6 +143,7 @@ animeUrl.addEventListener('click', () => {
                 player.play();
               });
             //window.location.href = `https://bharadwajpro.github.io/m3u8-player/player/#${videolink}`;
+            player.play();
             })
             .catch(error => {
             console.error('Error fetching data:', error);

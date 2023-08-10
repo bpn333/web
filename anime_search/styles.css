@@ -136,3 +136,7 @@ button {
 h1{
     color: red;
 }
+#qualitySelector{
+    color: blue;
+    background-color: rgb(152, 215, 255);
+}
