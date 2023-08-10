@@ -130,6 +130,7 @@ animeUrl.addEventListener('click', () => {
               
               const qualitySelector = document.getElementById('qualitySelector');
               qualitySelector.addEventListener('change', () => {
+                const currentTime = player.currentTime();
                 const selectedQuality = qualitySelector.value;
                 const sourceElement = player.currentSource();
               
@@ -139,7 +140,7 @@ animeUrl.addEventListener('click', () => {
                   const selectedSource = data.sources.find(source => source.quality === selectedQuality);
                   player.src({ type: sourceElement.type, src: selectedSource.url });
                 }
-              
+                player.currentTime(currentTime);
                 player.play();
               });
             //window.location.href = `https://bharadwajpro.github.io/m3u8-player/player/#${videolink}`;
