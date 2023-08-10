@@ -11,7 +11,6 @@ body {
     background-size: cover;
     background-position: center;
     font-family: 'Itim', cursive;
-    overflow-y: hidden;
 }
 
 .container {
@@ -121,8 +120,9 @@ button {
     font-size: xx-large;
 }
 #videoplayer {
-    width: 80%;
+    width: 80vw;
     height: 80vh;
+    border-color: black;
 }
 #description {
     color: yellow;
