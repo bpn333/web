@@ -94,15 +94,15 @@ animeUrl.addEventListener('click', () => {
       const description = data.description;
   
       if (episodes && episodes.length > 0) {
-        console.log('List of episode numbers:');
+        //console.log('List of episode numbers:');
         episodes.forEach(episode => {
-          console.log(episode.number);
+          //console.log(episode.number);
           const episodeDiv = document.createElement('div');
           episodeDiv.classList.add('episodes');
           episodeDiv.textContent = episode.number;
           
           episodeDiv.addEventListener('click', () => {
-            console.log('Clicked episode number:', episode.number);
+            //console.log('Clicked episode number:', episode.number);
             vidLink = `https://api.consumet.org/anime/gogoanime/watch/${firstResult.id}-episode-${episode.number}`;
             fetch(vidLink)
             .then(response => response.json())
