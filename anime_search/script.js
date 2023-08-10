@@ -107,8 +107,41 @@ animeUrl.addEventListener('click', () => {
             fetch(vidLink)
             .then(response => response.json())
             .then(data => {
-            videolink = getHighestQualityUrl(data);
-            document.body.innerHTML = `<iframe id="videoplayer" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock" src=https://bharadwajpro.github.io/m3u8-player/player/#${videolink}></iframe><p id="description">${description}</p>`
+            //document.body.innerHTML = `<iframe id="videoplayer" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock" src=https://bharadwajpro.github.io/m3u8-player/player/#${videolink}></iframe><p id="description">${description}</p>`
+            document.body.innerHTML = `<video id="videoplayer" class="video-js vjs-default-skin" controls preload="auto"></video>
+            <select id="qualitySelector">
+            <option value="default">Auto</option>
+            <option value="360p">360p</option>
+            <option value="480p">480p</option>
+            <option value="720p">720p</option>
+            <option value="1080p">1080p</option>
+            <option value="backup">Backup</option>
+          </select>
+          <h1>${firstResult.id}-episode-${episode.number}</h1>
+          <p id="description">${description}</p>`
+            var player = videojs('videoplayer'); //it is kind of necessary idk why
+            data.sources.forEach(source => {
+                const sourceElement = document.createElement('source');
+                sourceElement.src = source.url;
+                sourceElement.type = 'application/x-mpegURL';
+                sourceElement.setAttribute('res', source.quality);
+                player.src(sourceElement);
+              });
+              
+              const qualitySelector = document.getElementById('qualitySelector');
+              qualitySelector.addEventListener('change', () => {
+                const selectedQuality = qualitySelector.value;
+                const sourceElement = player.currentSource();
+              
+                if (selectedQuality === 'default') {
+                  player.src({ type: sourceElement.type, src: sourceElement.src });
+                } else {
+                  const selectedSource = data.sources.find(source => source.quality === selectedQuality);
+                  player.src({ type: sourceElement.type, src: selectedSource.url });
+                }
+              
+                player.play();
+              });
             //window.location.href = `https://bharadwajpro.github.io/m3u8-player/player/#${videolink}`;
             })
             .catch(error => {
@@ -126,12 +159,3 @@ animeUrl.addEventListener('click', () => {
       console.error('Error fetching data:', error);
     });
 });
-// Function to get the highest quality URL
-function getHighestQualityUrl(data) {
-    const highestQualitySource = data.sources.reduce((maxQualitySource, source) => {
-      const qualityRank = { "default": 0, "360p": 1, "480p": 2, "720p": 3, "1080p": 4 };
-      return qualityRank[source.quality] > qualityRank[maxQualitySource.quality] ? source : maxQualitySource;
-    });
-  
-    return highestQualitySource.url;
-  }
