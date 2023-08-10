@@ -91,6 +91,7 @@ animeUrl.addEventListener('click', () => {
     .then(response => response.json())
     .then(data => {
       const episodes = data.episodes;
+      const description = data.description;
   
       if (episodes && episodes.length > 0) {
         console.log('List of episode numbers:');
@@ -107,7 +108,8 @@ animeUrl.addEventListener('click', () => {
             .then(response => response.json())
             .then(data => {
             videolink = getHighestQualityUrl(data);
-            window.location.href = `https://bharadwajpro.github.io/m3u8-player/player/#${videolink}`;
+            document.body.innerHTML = `<iframe id="videoplayer" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock" src=https://bharadwajpro.github.io/m3u8-player/player/#${videolink}></iframe><p id="description">${description}</p>`
+            //window.location.href = `https://bharadwajpro.github.io/m3u8-player/player/#${videolink}`;
             })
             .catch(error => {
             console.error('Error fetching data:', error);

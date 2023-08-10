@@ -10,6 +10,8 @@ body {
     background-image: url(background.jpg);
     background-size: cover;
     background-position: center;
+    font-family: 'Itim', cursive;
+    overflow-y: hidden;
 }
 
 .container {
@@ -117,4 +119,14 @@ button {
     color: limegreen;
     filter: saturate(30);
     font-size: xx-large;
+}
+#videoplayer {
+    width: 80%;
+    height: 80vh;
+}
+#description {
+    color: yellow;
+    font-size: medium;
+    text-align: center;
+    padding: 0 20%;
 }
