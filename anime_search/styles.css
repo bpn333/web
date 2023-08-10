@@ -115,5 +115,6 @@ button {
 }
 .episodes{
     color: limegreen;
-    font-size: large;
+    filter: saturate(30);
+    font-size: xx-large;
 }

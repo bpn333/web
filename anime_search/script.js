@@ -106,10 +106,8 @@ animeUrl.addEventListener('click', () => {
             fetch(vidLink)
             .then(response => response.json())
             .then(data => {
-            const headers = data.headers;
-            const referer = headers.Referer;
-
-            window.location.href = referer;
+            videolink = getHighestQualityUrl(data);
+            window.location.href = `https://bharadwajpro.github.io/m3u8-player/player/#${videolink}`;
             })
             .catch(error => {
             console.error('Error fetching data:', error);
@@ -126,3 +124,12 @@ animeUrl.addEventListener('click', () => {
       console.error('Error fetching data:', error);
     });
 });
+// Function to get the highest quality URL
+function getHighestQualityUrl(data) {
+    const highestQualitySource = data.sources.reduce((maxQualitySource, source) => {
+      const qualityRank = { "default": 0, "360p": 1, "480p": 2, "720p": 3, "1080p": 4 };
+      return qualityRank[source.quality] > qualityRank[maxQualitySource.quality] ? source : maxQualitySource;
+    });
+  
+    return highestQualitySource.url;
+  }
