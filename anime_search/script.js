@@ -58,7 +58,7 @@ searchInput.addEventListener('input', event => {
     } else {
         suggestionsContainer.innerHTML = '';
     }
-});
+}, 300);
 
 // Function to display suggestions
 function displaySuggestions(suggestions) {
