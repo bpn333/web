@@ -24,7 +24,42 @@ function getQueryParams() {
       ep: urlParams.get('ep')
   };
 }
+const animeListDiv = document.getElementById('homescreen');
+if(getQueryParams().q == null & getQueryParams().ep == null){
+  fetch("https://api.consumet.org/anime/gogoanime/top-airing").then(response => response.json())
+  .then(animeData =>{
+    animeData.results.forEach(anime => {
+    const animeCard = document.createElement('div');
+    animeCard.classList.add('anime-card');
 
+
+    const animeImage = document.createElement('img');
+    animeImage.classList.add('anime-image');
+    animeImage.src = anime.image;
+    animeCard.appendChild(animeImage);
+
+    const animeDetails = document.createElement('div');
+    animeDetails.classList.add('anime-details');
+
+    const animeTitle = document.createElement('h2');
+    animeTitle.classList.add("anime-title");
+    animeTitle.textContent = anime.title;
+    animeTitle.addEventListener('click', () => {
+      updateURL(anime.id,"");
+      location.reload();
+    });
+    animeDetails.appendChild(animeTitle);
+
+    const genres = document.createElement('p');
+    genres.textContent = `Genres: ${anime.genres.join(', ')}`;
+    animeDetails.appendChild(genres);
+
+    animeCard.appendChild(animeDetails);
+
+    animeListDiv.appendChild(animeCard);
+  });
+});
+}
 // Function to populate input field with query parameter from the URL
 function populateInputFromQueryParams() {
   const queryParams = getQueryParams();
