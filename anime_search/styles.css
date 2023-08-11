@@ -123,8 +123,8 @@ button {
 }
 #videoplayer {
     margin-top: 3vh;
-    width: 80vw;
-    height: 80vh;
+    width: 960px;
+    height: 540px;
     border-color: black;
 }
 #description {
