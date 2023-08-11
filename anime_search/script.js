@@ -7,6 +7,10 @@ const resultsContainer = document.querySelector('.results');
 const suggestionsContainer = document.getElementById('suggestions');
 animeUrl.style.display = "none";
 description = "";
+window.addEventListener('popstate', () => {
+  location.reload();
+});
+
 // Function to read query parameters from the URL
 function getQueryParams() {
   const queryString = window.location.search;
