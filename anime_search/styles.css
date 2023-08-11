@@ -153,12 +153,6 @@ h1{
     }
 }
 
-@media (max-width: 600px) {
-    .anime-list {
-        grid-template-columns: 1fr;
-    }
-}
-
 .anime-card {
     padding-top: 1vw;
     padding-left: 2vw;
