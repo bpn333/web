@@ -79,6 +79,7 @@ searchInput.addEventListener('input', event => {
     if (keyword !== '') {
         // Simulate fetching suggestions based on the keyword
         const apiUrl = `https://api.consumet.org/anime/gogoanime/${keyword}?page=1`;
+        animeListDiv.innerHTML = "";    //delete home screen
         
         fetch(apiUrl)
             .then(response => response.json())
