@@ -160,7 +160,9 @@ h1{
 }
 
 .anime-card {
-    padding: 3vw;
+    padding-top: 1vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -183,6 +185,6 @@ h1{
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 15vw;
+  max-width: 18vw;
   white-space: nowrap;
 }
