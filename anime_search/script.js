@@ -5,12 +5,16 @@ const animeImage = document.getElementById('animeImage');
 const animeUrl = document.getElementById('animeUrl');
 const resultsContainer = document.querySelector('.results');
 const suggestionsContainer = document.getElementById('suggestions');
+const home = document.getElementById('home');
 animeUrl.style.display = "none";
 description = "";
 window.addEventListener('popstate', () => {
   location.reload();
 });
-
+home.addEventListener('click',() =>{
+  updateURL("","");
+  location.reload();
+});
 // Function to read query parameters from the URL
 function getQueryParams() {
   const queryString = window.location.search;
@@ -179,7 +183,7 @@ function loadEpisode(ep){
   .then(response => response.json())
   .then(data => {
   //document.body.innerHTML = `<iframe id="videoplayer" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock" src=https://bharadwajpro.github.io/m3u8-player/player/#${videolink}></iframe><p id="description">${description}</p>`
-  document.body.innerHTML = `<video id="videoplayer" class="video-js vjs-default-skin" controls preload="auto"></video>
+  document.querySelector(".container").innerHTML = `<video id="videoplayer" class="video-js vjs-default-skin" controls preload="auto"></video>
   <select id="qualitySelector">
   <option value="default">Auto</option>
   <option value="360p">360p</option>
