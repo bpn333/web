@@ -179,12 +179,11 @@ animeUrl.addEventListener('click', () => {
           //console.log(episode.number);
           const episodeDiv = document.createElement('div');
           episodeDiv.classList.add('episodes');
-          episodeDiv.textContent = episode.number;
-          
+          episodeDiv.textContent = `${firstResult.title} episode ${episode.number}`;
+          document.querySelector('.container').appendChild(episodeDiv);
           episodeDiv.addEventListener('click', () => {
             loadEpisode(episode.number);
           });
-          document.querySelector('.container').appendChild(episodeDiv);
         });
       } else {
         //console.log('No episodes found.');
@@ -220,16 +219,30 @@ function loadEpisode(ep){
   .then(data => {
   //document.body.innerHTML = `<iframe id="videoplayer" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock" src=https://bharadwajpro.github.io/m3u8-player/player/#${videolink}></iframe><p id="description">${description}</p>`
   document.querySelector(".container").innerHTML = `<video id="videoplayer" class="video-js vjs-default-skin" controls preload="auto"></video>
-  <select id="qualitySelector">
+  <div id="sourceeditor"><button class="navigation" id="prevep"><span class="material-symbols-outlined">
+  arrow_back
+  </span></button><select id="qualitySelector">
   <option value="default">Auto</option>
   <option value="360p">360p</option>
   <option value="480p">480p</option>
   <option value="720p">720p</option>
   <option value="1080p">1080p</option>
   <option value="backup">Backup</option>
-</select>
+</select><button class="navigation" id="nextep"><span class="material-symbols-outlined">
+arrow_forward
+</span></button></div>
 <h1>${firstResult.id}-episode-${ep}</h1>
 <p id="description">${description}</p>`
+  document.getElementById("nextep").addEventListener("click",() =>{
+    updateURL(firstResult.id,parseInt(ep)+1);
+    location.reload();
+  });
+  document.getElementById("prevep").addEventListener("click",() =>{
+    if((parseInt(ep)-1)>0){
+      updateURL(firstResult.id,parseInt(ep)-1);
+      location.reload();
+    }
+  });
   var player = videojs('videoplayer'); //it is kind of necessary idk why
   data.sources.forEach(source => {
       const sourceElement = document.createElement('source');

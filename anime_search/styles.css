@@ -31,13 +31,17 @@ body {
 }
 
 input[type="text"] {
+    color:rgb(0, 229, 255);
     padding: 10px;
-    font:bold;
-    background-color: rgb(131, 142, 241);
-    border: 1px solid #5900ff;
+    font-size: larger;
+    font-weight: bolder; /* Make the text bold */
+    opacity: 1; /* Adjust the opacity (0.0 to 1.0) for clarity */
+    background-color: transparent;
+    border: 2px solid blue;
     border-radius: 4px;
     margin:3px;
     width: 30vw;
+    text-shadow: 2px 2px 4px red;
 }
 
 button {
@@ -49,6 +53,15 @@ button {
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
 }
+
+#searchButton {
+    color: red;
+    border: 2px solid blue; /* Add a blue border with 2px width */
+    background: transparent; /* Set the background to transparent */
+    cursor: pointer; /* Change cursor to indicate interactivity */
+    display: inline-flex; /* Display as inline-flex to fit content */
+    align-items: center; /* Align content vertically */
+  }
 
 .results {
     text-align: center;
@@ -65,7 +78,6 @@ button {
 #animeName {
     color: rgb(255, 17, 0);
     text-decoration: solid;
-    border: #007bff;
 }
 
 #animeImage {
@@ -77,8 +89,8 @@ button {
 }
 
 .suggestion {
+    border: 2px solid blue;
     padding: 5px;
-    border-color: red;
     cursor: pointer;
 }
 
@@ -96,16 +108,17 @@ button {
     outline: 0;
 }
 .episodes{
-    color: limegreen;
+    color: rgb(0, 229, 255);
     filter: saturate(30);
     font-size: xx-large;
     cursor: pointer;
+    border: 1px solid blue;
 }
 #videoplayer {
     margin-top: 3vh;
     width: 960px;
     height: 540px;
-    border-color: black;
+    border: 1px solid blue;
 }
 #description {
     color: yellow;
@@ -117,8 +130,8 @@ h1{
     color: red;
 }
 #qualitySelector{
-    color: blue;
-    background-color: rgb(152, 215, 255);
+    color: white;
+    background-color: rgb(65, 65, 226);
 }
 #home{
     border: 0;
@@ -181,4 +194,17 @@ h1{
   text-overflow: ellipsis;
   max-width: 18vw;
   white-space: nowrap;
+}
+.navigation{
+
+    border: 0;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    background-color: black;
+}
+#sourceeditor{
+    display: inline-block;   
+    display: flex; /* Use flexbox to align items vertically */
+    align-items: center; /* Center items vertically within the flex container */
 }
