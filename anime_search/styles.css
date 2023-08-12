@@ -1,15 +1,13 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
     min-height: 100vh;
     background-image: url(background.jpg);
     background-size: cover;
     background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
     font-family: 'Itim', cursive;
 }
 
@@ -111,6 +109,7 @@ button {
     text-align: left;
     color: yellow;
     font-size: medium;
+    width: 100%;
 }
 .episodes{
     color: rgb(0, 229, 255);
@@ -162,11 +161,41 @@ h1{
     .anime-list {
         grid-template-columns: repeat(3, 1fr);
     }
+    #videoplayer {
+        margin-top: 2vh;
+        width: 90vw;
+        height: calc((90vw/16)*9);
+    }
 }
 
 @media (max-width: 900px) {
     .anime-list {
         grid-template-columns: repeat(2, 1fr);
+    }
+    #videoplayer {
+        margin-top: 2vh;
+        width: 95vw;
+        height: calc((vw/16)*9);
+    }
+    #animeinfo{
+        text-align: center;
+    }
+    #animeName {
+        font-size: large;
+    }
+    #animeImage {
+        width: 95vw;
+    }
+    h1{
+        font-size: large;
+    }
+    #description{
+        font-size: small;
+    }
+    .anime-details{
+        font-size: xx-small;
+        text-align: left;
+        width: 100%;
     }
 }
 
@@ -188,6 +217,8 @@ h1{
 .anime-details {
     color: yellow;
     font-size: small;
+    width: 18vw;
+    text-align: center;
 }
 .anime-title {
   cursor: pointer;  
@@ -195,9 +226,7 @@ h1{
   font-size: x-large;
   text-align: center;
   overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 18vw;
-  white-space: nowrap;
+  max-height: 2.4em;
 }
 .navigation{
 
