@@ -193,7 +193,7 @@ function updateURL(newQuery, newEpisode) {
 
   window.history.pushState({}, '', newURL);
   //console.log(`URL updated: ${newURL}`);
-  document.title=`${newQuery} ${newEpisode}`;
+  document.title=`${newQuery}-${newEpisode}`;
 }
 
 function loadEpisode(ep){
