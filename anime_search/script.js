@@ -3,11 +3,13 @@ const searchInput = document.getElementById('searchInput');
 const animeName = document.getElementById('animeName');
 const animeImage = document.getElementById('animeImage');
 const animeUrl = document.getElementById('animeUrl');
+const animeinfo = document.getElementById('animeinfo');
 const resultsContainer = document.querySelector('.results');
 const suggestionsContainer = document.getElementById('suggestions');
 const home = document.getElementById('home');
 animeUrl.style.display = "none";
-description = "";
+let description;
+let episodes;
 window.addEventListener('popstate', () => {
   location.reload();
 });
@@ -132,10 +134,17 @@ function performSearch(query) {
         .then(data => {
             if (data.results && data.results.length > 0) {
                 firstResult = data.results[0];
-                animeName.innerHTML = `<h1>${firstResult.title}</h1>`;
-                animeImage.src = firstResult.image;
-                animeUrl.style.display = "block";
                 animeid = `https://api.consumet.org/anime/gogoanime/info/${firstResult.id}`;
+                fetch(animeid)
+                .then(response => response.json())
+                .then(data => {
+                  animeName.innerHTML = `<h1>${data.title}</h1><br>`;
+                  animeinfo.innerHTML = `<p>Release Date: ${data.releaseDate}<br>Language: ${data.subOrDub}<br>${data.type}<br>Status: ${data.status}<br>Name: ${data.otherName}<br>Genres: ${data.genres}<p>`;
+                  animeImage.src = data.image;
+                  animeUrl.style.display = "block";
+                  episodes = data.episodes;
+                  description = data.description;
+                });
                 if(getQueryParams().ep!=null){
                   //console.log("both",getQueryParams().ep,getQueryParams().q);
                   const ep=getQueryParams().ep;
@@ -148,51 +157,28 @@ function performSearch(query) {
                 }
                 //animeUrl.href = firstResult.url;
                 //document.body.style.backgroundImage = `url('${firstResult.image}')`;
-            } else {
-                animeName.textContent = 'No results found.';
-                animeImage.src = '';
             }
-
             // Show results container
             resultsContainer.classList.add('show');
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-            animeName.textContent = 'An error occurred.';
-            animeImage.src = '';
         });
 }
 animeUrl.addEventListener('click', () => {
-  fetchEpisodes();});
+  showepisodes();
+});
 
-  function fetchEpisodes(){
-    document.querySelector('.container').innerHTML = '';
-    fetch(animeid)
-    .then(response => response.json())
-    .then(data => {
-      const episodes = data.episodes;
-      description = data.description;
-  
-      if (episodes && episodes.length > 0) {
-        //console.log('List of episode numbers:');
-        episodes.forEach(episode => {
-          //console.log(episode.number);
-          const episodeDiv = document.createElement('div');
-          episodeDiv.classList.add('episodes');
-          episodeDiv.textContent = `${firstResult.title} episode ${episode.number}`;
-          document.querySelector('.container').appendChild(episodeDiv);
-          episodeDiv.addEventListener('click', () => {
-            loadEpisode(episode.number);
-          });
+    function showepisodes(){
+      document.querySelector('.container').innerHTML = '';
+      episodes.forEach(episode => {
+        //console.log(episode.number);
+        const episodeDiv = document.createElement('div');
+        episodeDiv.classList.add('episodes');
+        episodeDiv.textContent = `${firstResult.title} episode ${episode.number}`;
+        document.querySelector('.container').appendChild(episodeDiv);
+        episodeDiv.addEventListener('click', () => {
+          loadEpisode(episode.number);
         });
-      } else {
-        //console.log('No episodes found.');
-      }
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-    });
-  }
+      });
+    }
 function updateURL(newQuery, newEpisode) {
   let newURL = window.location.origin + window.location.pathname;
 
@@ -231,17 +217,22 @@ function loadEpisode(ep){
 </select><button class="navigation" id="nextep"><span class="material-symbols-outlined">
 arrow_forward
 </span></button></div>
-<h1>${firstResult.id}-episode-${ep}</h1>
+<h1>${firstResult.title}-episode-${ep}</h1>
 <p id="description">${description}</p>`
   document.getElementById("nextep").addEventListener("click",() =>{
-    updateURL(firstResult.id,parseInt(ep)+1);
-    location.reload();
+    episodes.forEach(episode => {
+      if(episode.number == parseInt(ep)+1){
+        console.log(episode.number,"found");
+        updateURL(firstResult.id,parseInt(ep)+1);
+        location.reload();
+      }});
   });
   document.getElementById("prevep").addEventListener("click",() =>{
-    if((parseInt(ep)-1)>0){
+    episodes.forEach(episode => {
+      if(episode.number == parseInt(ep)-1){
       updateURL(firstResult.id,parseInt(ep)-1);
       location.reload();
-    }
+    }});
   });
   var player = videojs('videoplayer'); //it is kind of necessary idk why
   data.sources.forEach(source => {

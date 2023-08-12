@@ -107,6 +107,11 @@ button {
     padding: 0;
     outline: 0;
 }
+#animeinfo{
+    text-align: left;
+    color: yellow;
+    font-size: medium;
+}
 .episodes{
     color: rgb(0, 229, 255);
     filter: saturate(30);
@@ -116,8 +121,8 @@ button {
 }
 #videoplayer {
     margin-top: 3vh;
-    width: 960px;
-    height: 540px;
+    width: 60vw;
+    height: calc((60vw/16)*9);
 }
 #description {
     color: yellow;
