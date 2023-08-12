@@ -32,13 +32,17 @@ if(getQueryParams().q == null & getQueryParams().ep == null){
   showAnimes("https://api.consumet.org/anime/gogoanime/top-airing");
 }
 
-function showAnimes(url){
+function showAnimes(url,skip){
+  animeListDiv.innerHTML = "";
   fetch(url).then(response => response.json())
   .then(animeData =>{
     animeData.results.forEach(anime => {
     const animeCard = document.createElement('div');
     animeCard.classList.add('anime-card');
-
+    if(skip){
+      skip=0;
+      return;
+    }
 
     const animeImage = document.createElement('img');
     animeImage.classList.add('anime-image');
@@ -127,7 +131,6 @@ searchButton.addEventListener('click', () => {
 function performSearch(query) {
     const apiUrl = `https://api.consumet.org/anime/gogoanime/${query}?page=1`;
     animeListDiv.innerHTML = "";    //delete home screen
-
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
@@ -148,7 +151,6 @@ function performSearch(query) {
                     genreElement.textContent = genre;
                     genreElement.style.cursor = "pointer";
                     genreElement.addEventListener('click',() => {
-                      animeListDiv.innerHTML = "";
                       if(old){
                         old.style.color = "yellow";
                       }
@@ -175,6 +177,7 @@ function performSearch(query) {
             // Show results container
             resultsContainer.classList.add('show');
         });
+        showAnimes(apiUrl,1);
 }
 animeUrl.addEventListener('click', () => {
   showepisodes();

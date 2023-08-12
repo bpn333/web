@@ -200,9 +200,9 @@ h1{
 }
 
 .anime-card {
-    padding-top: 1vw;
-    padding-left: 2vw;
-    padding-right: 2vw;
+    margin-top: 1vw;
+    margin-left: 2vw;
+    margin-right: 2vw;
     display: flex;
     align-items: center;
     flex-direction: column;
