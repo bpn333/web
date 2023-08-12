@@ -7,9 +7,11 @@ const animeinfo = document.getElementById('animeinfo');
 const resultsContainer = document.querySelector('.results');
 const suggestionsContainer = document.getElementById('suggestions');
 const home = document.getElementById('home');
+const animeListDiv = document.getElementById('homescreen');
 animeUrl.style.display = "none";
 let description;
 let episodes;
+let old = null;
 window.addEventListener('popstate', () => {
   location.reload();
 });
@@ -26,10 +28,10 @@ function getQueryParams() {
       ep: urlParams.get('ep')
   };
 }
-const animeListDiv = document.getElementById('homescreen');
 if(getQueryParams().q == null & getQueryParams().ep == null){
   showAnimes("https://api.consumet.org/anime/gogoanime/top-airing");
 }
+
 function showAnimes(url){
   fetch(url).then(response => response.json())
   .then(animeData =>{
@@ -90,7 +92,7 @@ searchInput.addEventListener('input', event => {
                 }
             })
             .catch(error => {
-                console.error('Error fetching suggestions:', error);
+                //console.error('Error fetching suggestions:', error);
                 suggestionsContainer.innerHTML = '';
             });
     } else {
@@ -136,7 +138,7 @@ function performSearch(query) {
                 .then(response => response.json())
                 .then(data => {
                   animeName.innerHTML = `<h1>${data.title}</h1><br>`;
-                  animeinfo.innerHTML = `<p>Release Date: ${data.releaseDate}<br>Language: ${data.subOrDub}<br>${data.type}<br>Status: ${data.status}<br>Name: ${data.otherName}<br>Genres:<div id="genres"></div><p>`;
+                  animeinfo.innerHTML = `Release Date: ${data.releaseDate}<br>Language: ${data.subOrDub}<br>${data.type}<br>Status: ${data.status}<br>Name: ${data.otherName}<br>Genres:`;
                   animeImage.src = data.image;
                   animeUrl.style.display = "block";
                   episodes = data.episodes;
@@ -144,10 +146,17 @@ function performSearch(query) {
                   data.genres.forEach(genre => {
                     const genreElement = document.createElement('div');
                     genreElement.textContent = genre;
+                    genreElement.style.cursor = "pointer";
                     genreElement.addEventListener('click',() => {
-                      showAnimes(`https://api.consumet.org/anime/gogoanime/genre/${genre}`);
+                      animeListDiv.innerHTML = "";
+                      if(old){
+                        old.style.color = "yellow";
+                      }
+                      genreElement.style.color = "green";
+                      old = genreElement;
+                      showAnimes(`https://api.consumet.org/anime/gogoanime/genre/${genre.replace(/ /g, '-')}`);
                     });
-                    document.getElementById("genres").appendChild(genreElement);
+                    animeinfo.appendChild(genreElement);
                   });
                 });
                 if(getQueryParams().ep!=null){
@@ -173,6 +182,11 @@ animeUrl.addEventListener('click', () => {
 
     function showepisodes(){
       document.querySelector('.container').innerHTML = '';
+      if(episodes == 0){
+        document.querySelector('.container').style.color = 'red';
+        document.querySelector('.container').innerHTML = '<h1>ERROR NO EP FOUND<h1>';
+      }
+      else{
       episodes.forEach(episode => {
         //console.log(episode.number);
         const episodeDiv = document.createElement('div');
@@ -184,6 +198,7 @@ animeUrl.addEventListener('click', () => {
         });
       });
     }
+  }
 function updateURL(newQuery, newEpisode) {
   let newURL = window.location.origin + window.location.pathname;
 
@@ -229,7 +244,7 @@ arrow_forward
   document.getElementById("nextep").addEventListener("click",() =>{
     episodes.forEach(episode => {
       if(episode.number == parseInt(ep)+1){
-        console.log(episode.number,"found");
+        //console.log(episode.number,"found");
         updateURL(firstResult.id,parseInt(ep)+1);
         location.reload();
       }});
@@ -242,6 +257,7 @@ arrow_forward
     }});
   });
   var player = videojs('videoplayer'); //it is kind of necessary idk why
+  //console.log(data.sources);
   data.sources.forEach(source => {
       const sourceElement = document.createElement('source');
       sourceElement.src = source.url;
