@@ -28,7 +28,10 @@ function getQueryParams() {
 }
 const animeListDiv = document.getElementById('homescreen');
 if(getQueryParams().q == null & getQueryParams().ep == null){
-  fetch("https://api.consumet.org/anime/gogoanime/top-airing").then(response => response.json())
+  showAnimes("https://api.consumet.org/anime/gogoanime/top-airing");
+}
+function showAnimes(url){
+  fetch(url).then(response => response.json())
   .then(animeData =>{
     animeData.results.forEach(anime => {
     const animeCard = document.createElement('div');
@@ -51,13 +54,7 @@ if(getQueryParams().q == null & getQueryParams().ep == null){
       location.reload();
     });
     animeDetails.appendChild(animeTitle);
-
-    const genres = document.createElement('p');
-    genres.textContent = `Genres: ${anime.genres.join(', ')}`;
-    animeDetails.appendChild(genres);
-
     animeCard.appendChild(animeDetails);
-
     animeListDiv.appendChild(animeCard);
   });
 });
@@ -139,11 +136,19 @@ function performSearch(query) {
                 .then(response => response.json())
                 .then(data => {
                   animeName.innerHTML = `<h1>${data.title}</h1><br>`;
-                  animeinfo.innerHTML = `<p>Release Date: ${data.releaseDate}<br>Language: ${data.subOrDub}<br>${data.type}<br>Status: ${data.status}<br>Name: ${data.otherName}<br>Genres: ${data.genres}<p>`;
+                  animeinfo.innerHTML = `<p>Release Date: ${data.releaseDate}<br>Language: ${data.subOrDub}<br>${data.type}<br>Status: ${data.status}<br>Name: ${data.otherName}<br>Genres:<div id="genres"></div><p>`;
                   animeImage.src = data.image;
                   animeUrl.style.display = "block";
                   episodes = data.episodes;
                   description = data.description;
+                  data.genres.forEach(genre => {
+                    const genreElement = document.createElement('div');
+                    genreElement.textContent = genre;
+                    genreElement.addEventListener('click',() => {
+                      showAnimes(`https://api.consumet.org/anime/gogoanime/genre/${genre}`);
+                    });
+                    document.getElementById("genres").appendChild(genreElement);
+                  });
                 });
                 if(getQueryParams().ep!=null){
                   //console.log("both",getQueryParams().ep,getQueryParams().q);
@@ -215,6 +220,7 @@ function loadEpisode(ep){
   <option value="720p">720p</option>
   <option value="1080p">1080p</option>
   <option value="backup">Backup</option>
+  <option value="others">others</option>
 </select><button class="navigation" id="nextep"><span class="material-symbols-outlined">
 arrow_forward
 </span></button></div>
@@ -252,7 +258,14 @@ arrow_forward
     
       if (selectedQuality === 'default') {
         player.src({ type: sourceElement.type, src: sourceElement.src });
-      } else {
+      } 
+      else if(selectedQuality === 'others'){
+        fetch(`https://api.consumet.org/anime/gogoanime/servers/${firstResult.id}-episode-${ep}`).then(response => response.json())
+        .then(data => {
+          window.location.href = `${data[0].url}`;
+        });
+      }
+      else {
         const selectedSource = data.sources.find(source => source.quality === selectedQuality);
         player.src({ type: sourceElement.type, src: selectedSource.url });
       }
