@@ -388,6 +388,7 @@ fetch(`https://api.jsonbin.io/v3/b/${animebin}`,{
 });
 }
 function addcomment(comment){
+  document.getElementById('input').value = '';
   const commentDiv = document.createElement('div');
   commentDiv.classList.add('comment');
   commentDiv.textContent = `${comment}`;
