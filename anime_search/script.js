@@ -307,7 +307,7 @@ function secondscrit(){
 var deviceIP = "NULL";
 animeid = firstResult.id;
 ids=null;
-var animebin;
+animebin = null;
 oldcommentdata = null;
 
 fetch("https://api.ipify.org?format=json")
@@ -322,13 +322,13 @@ fetch(`https://api.jsonbin.io/v3/b/64dafde18e4aa6225ed028e4`,{
     }
 }).then(res => res.json()).then(data => {
     ids=data;
+    animebin=0;
     data.record.forEach(datas =>{
            if(datas.anime == animeid){
             animebin = datas.bin;
             getcomments(animebin);
         }
-    });
-    animebin=-1;
+    })
 });
 
 function createbin(){
@@ -423,7 +423,7 @@ document.getElementById('send').addEventListener('click',() => {
             send(oldcommentdata);
             //console.log("sending");
         }
-        else if(animebin==-1){
+        else if(animebin==0){
             createbin();
             //console.log("creating");
         }
