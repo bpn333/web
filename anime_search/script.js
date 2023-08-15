@@ -391,6 +391,7 @@ function addcomment(comment){
   document.getElementById('input').value = '';
   const commentDiv = document.createElement('div');
   commentDiv.classList.add('comment');
+  //commentDiv.textContent = `${comment}`;
   commentDiv.innerHTML = `${comment}`;
   document.getElementById('comments').appendChild(commentDiv);
 }
