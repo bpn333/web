@@ -349,7 +349,7 @@ function createbin(){
         },
         body: JSON.stringify(newdataArray)
     }).then(response => response.json()).then(data =>{
-        console.log(data.metadata.id);
+        //console.log(data.metadata.id);
         const newid = {
             anime: animeid,
             bin: data.metadata.id
@@ -359,7 +359,7 @@ function createbin(){
             anime: record.anime,
             bin: record.bin
         }));
-        console.log(newanime)
+        //console.log(newanime)
         fetch(`https://api.jsonbin.io/v3/b/64dafde18e4aa6225ed028e4`,{
             method: 'PUT',
             headers: {
@@ -378,10 +378,10 @@ fetch(`https://api.jsonbin.io/v3/b/${animebin}`,{
         'X-MASTER-KEY':'$2b$10$mCWrkssvTmzzCTIPfRai/u8I1xxTSqGTztH0zF0tORQ9apnIvNQ6.'
     }
 }).then(res => res.json()).then(data => {
-    console.log(data);
-    console.log(animebin)
+    //console.log(data);
+    //console.log(animebin)
     data.record.forEach(element => {
-          console.log("your old comment = ",element.comment);
+          //console.log("your old comment = ",element.comment);
           addcomment(element.comment);
     });
     oldcommentdata = data;
@@ -421,11 +421,11 @@ document.getElementById('send').addEventListener('click',() => {
     if(document.getElementById('input').value != ''){
         if(animebin){
             send(oldcommentdata);
-            console.log("sending");
+            //console.log("sending");
         }
         else if(animebin==0){
             createbin();
-            console.log("creating");
+            //console.log("creating");
         }
     }
 });
