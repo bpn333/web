@@ -241,3 +241,22 @@ h1{
     display: flex; /* Use flexbox to align items vertically */
     align-items: center; /* Center items vertically within the flex container */
 }
+
+
+/*2nd css*/
+#comments{
+    margin:0vw 35vw;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+}
+.comment{
+    width: 30vw;
+    align-self: center;
+    color: yellow;
+    border: 1px solid yellow;
+}
+#input{
+    margin:0vw 30vw;
+    margin: 2vw;
+}

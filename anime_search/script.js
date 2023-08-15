@@ -243,7 +243,9 @@ function loadEpisode(ep){
 arrow_forward
 </span></button></div>
 <h1>${firstResult.title}-episode-${ep}</h1>
-<p id="description">${description}</p>`
+<p id="description">${description}</p><input id="input" type="text">
+<button id="send">SEND</button><div id="comments"></div>`
+secondscrit();
   document.getElementById("nextep").addEventListener("click",() =>{
     episodes.forEach(episode => {
       if(episode.number == parseInt(ep)+1){
@@ -297,4 +299,133 @@ arrow_forward
   .catch(error => {
   console.error('Error fetching data:', error);
   });
+}
+
+
+//2nd script
+function secondscrit(){
+var deviceIP = "NULL";
+animeid = firstResult.id;
+ids=null;
+animebin = null;
+oldcommentdata = null;
+
+fetch("https://api.ipify.org?format=json")
+  .then(response => response.json())
+  .then(data => {
+    deviceIP = data.ip;
+});
+fetch(`https://api.jsonbin.io/v3/b/64dafde18e4aa6225ed028e4`,{
+    method: 'GET',
+    headers: {
+        'X-MASTER-KEY':'$2b$10$mCWrkssvTmzzCTIPfRai/u8I1xxTSqGTztH0zF0tORQ9apnIvNQ6.'
+    }
+}).then(res => res.json()).then(data => {
+    ids=data;
+    animebin=0;
+    data.record.forEach(datas =>{
+           if(datas.anime == animeid){
+            animebin = datas.bin;
+            getcomments(animebin);
+        }
+    })
+});
+
+function createbin(){
+    const newdata = {
+        ip: deviceIP,
+        comment: document.getElementById('input').value
+    };
+    addcomment(document.getElementById('input').value);
+    const newdataArray = [];
+    newdataArray.push(newdata);
+    fetch(`https://api.jsonbin.io/v3/b`,{
+        method: 'POST',
+        headers: {
+            'Content-Type':'application/json',
+            'X-MASTER-KEY':'$2b$10$mCWrkssvTmzzCTIPfRai/u8I1xxTSqGTztH0zF0tORQ9apnIvNQ6.',
+            'X-Bin-Name':`${animeid}`,
+            'X-Collection-Id':'64db00e1b89b1e2299d0d28d'
+        },
+        body: JSON.stringify(newdataArray)
+    }).then(response => response.json()).then(data =>{
+        console.log(data.metadata.id);
+        const newid = {
+            anime: animeid,
+            bin: data.metadata.id
+        };
+        ids.record.push(newid);
+        const newanime = ids.record.map(record => ({
+            anime: record.anime,
+            bin: record.bin
+        }));
+        console.log(newanime)
+        fetch(`https://api.jsonbin.io/v3/b/64dafde18e4aa6225ed028e4`,{
+            method: 'PUT',
+            headers: {
+                'Content-Type':'application/json',
+                'X-MASTER-KEY':'$2b$10$mCWrkssvTmzzCTIPfRai/u8I1xxTSqGTztH0zF0tORQ9apnIvNQ6.',
+            },
+            body: JSON.stringify(newanime)
+        });
+    });
+}
+
+function getcomments(){
+fetch(`https://api.jsonbin.io/v3/b/${animebin}`,{
+    method: 'GET',
+    headers: {
+        'X-MASTER-KEY':'$2b$10$mCWrkssvTmzzCTIPfRai/u8I1xxTSqGTztH0zF0tORQ9apnIvNQ6.'
+    }
+}).then(res => res.json()).then(data => {
+    console.log(data);
+    console.log(animebin)
+    data.record.forEach(element => {
+          console.log("your old comment = ",element.comment);
+          addcomment(element.comment);
+    });
+    oldcommentdata = data;
+});
+}
+function addcomment(comment){
+  const commentDiv = document.createElement('div');
+  commentDiv.classList.add('comment');
+  commentDiv.textContent = `${comment}`;
+  document.getElementById('comments').appendChild(commentDiv);
+}
+function send(data){
+    const records = data.record;
+    const newdata = {
+        ip: deviceIP,
+        comment: document.getElementById('input').value
+    };
+    addcomment(document.getElementById('input').value);
+    records.push(newdata);
+    // Flatten the nested structure of the records
+    const flattenedRecords = records.map(record => ({
+        ip: record.ip,
+        comment: record.comment
+    }));
+    fetch(`https://api.jsonbin.io/v3/b/${animebin}`,{
+        method: 'PUT',
+        headers: {
+            'Content-Type':'application/json',
+            'X-MASTER-KEY':'$2b$10$mCWrkssvTmzzCTIPfRai/u8I1xxTSqGTztH0zF0tORQ9apnIvNQ6.',
+        },
+        body: JSON.stringify(flattenedRecords)
+    });
+    document.getElementById('input').value = '';
+}
+document.getElementById('send').addEventListener('click',() => {
+    if(document.getElementById('input').value != ''){
+        if(animebin){
+            send(oldcommentdata);
+            console.log("sending");
+        }
+        else if(animebin==0){
+            createbin();
+            console.log("creating");
+        }
+    }
+});
 }
