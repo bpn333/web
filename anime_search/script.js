@@ -392,7 +392,6 @@ function addcomment(comment){
   const commentDiv = document.createElement('div');
   commentDiv.classList.add('comment');
   commentDiv.textContent = `${comment}`;
-  //commentDiv.innerHTML = `${comment}`;
   document.getElementById('comments').appendChild(commentDiv);
 }
 function send(data){
