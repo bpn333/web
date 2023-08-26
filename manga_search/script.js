@@ -2,6 +2,7 @@ document.getElementById('search').addEventListener('click',()=>{
     showResult(`https://api.consumet.org/manga/mangadex/${document.getElementById('input').value}`);
 });
 function showResult(url){
+    document.getElementById('results').innerHTML = "";
     fetch(url).then(responce => responce.json()).then(data =>{
         console.log(data);
         data.results.forEach(manga =>{
