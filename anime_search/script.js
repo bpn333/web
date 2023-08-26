@@ -32,9 +32,8 @@ if(getQueryParams().q == null & getQueryParams().ep == null){
   showAnimes("https://api.consumet.org/anime/gogoanime/top-airing");
 }
 
-function showAnimes(url,skip){
-  animeListDiv.innerHTML = "";
-  fetch(url).then(response => response.json())
+function showAnimes(url,skip,page=1){
+  fetch(url+`?page=${page}`).then(response => response.json())
   .then(animeData =>{
     animeData.results.forEach(anime => {
     const animeCard = document.createElement('div');
@@ -63,6 +62,16 @@ function showAnimes(url,skip){
     animeCard.appendChild(animeDetails);
     animeListDiv.appendChild(animeCard);
   });
+  if(animeData.hasNextPage){
+    const more = document.createElement('div');
+    more.innerHTML = `<span class="material-symbols-outlined" style="margin: 3vw;font-size: 15vw; color: red;align-items: center;justify-content: center;">arrow_forward</span>`;
+    animeListDiv.appendChild(more);
+    more.addEventListener('click',()=>{
+      page++;
+      animeListDiv.removeChild(more);
+      showAnimes(url,0,page);
+    })
+  }
 });
 }
 // Function to populate input field with query parameter from the URL
@@ -83,7 +92,7 @@ searchInput.addEventListener('input', event => {
 
     if (keyword !== '') {
         // Simulate fetching suggestions based on the keyword
-        const apiUrl = `https://api.consumet.org/anime/gogoanime/${keyword}?page=1`;
+        const apiUrl = `https://api.consumet.org/anime/gogoanime/${keyword}`;
         
         fetch(apiUrl)
             .then(response => response.json())
@@ -129,7 +138,7 @@ searchButton.addEventListener('click', () => {
 
 // Function to perform the search
 function performSearch(query) {
-    const apiUrl = `https://api.consumet.org/anime/gogoanime/${query}?page=1`;
+    const apiUrl = `https://api.consumet.org/anime/gogoanime/${query}`;
     animeListDiv.innerHTML = "";    //delete home screen
     fetch(apiUrl)
         .then(response => response.json())
