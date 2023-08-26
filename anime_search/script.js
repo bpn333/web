@@ -64,7 +64,7 @@ function showAnimes(url,skip,page=1){
   });
   if(animeData.hasNextPage){
     const more = document.createElement('div');
-    more.innerHTML = `<span class="material-symbols-outlined" style="margin: 3vw;font-size: 15vw; color: red;align-items: center;justify-content: center;">arrow_forward</span>`;
+    more.innerHTML = `<span class="material-symbols-outlined" style="margin: 3vw;font-size: 15vw; color: red;align-items: center;justify-content: center;cursor: pointer;">arrow_forward</span>`;
     animeListDiv.appendChild(more);
     more.addEventListener('click',()=>{
       page++;
