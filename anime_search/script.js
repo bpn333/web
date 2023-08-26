@@ -165,6 +165,7 @@ function performSearch(query) {
                       }
                       genreElement.style.color = "green";
                       old = genreElement;
+                      animeListDiv.innerHTML = "";
                       showAnimes(`https://api.consumet.org/anime/gogoanime/genre/${genre.replace(/ /g, '-')}`);
                     });
                     animeinfo.appendChild(genreElement);
