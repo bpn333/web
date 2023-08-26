@@ -133,6 +133,7 @@ suggestionsContainer.addEventListener('click', event => {
 // Event listener for search button click
 searchButton.addEventListener('click', () => {
     const query = searchInput.value;
+    suggestionsContainer.innerHTML = "";
     performSearch(query);
 });
 
