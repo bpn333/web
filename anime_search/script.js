@@ -225,7 +225,7 @@ function performSearch(query) {
                   //console.log("both",getQueryParams().ep,getQueryParams().q);
                   const ep=getQueryParams().ep;
                   updateURL(current_provider,query,ep);
-                  loadEpisode(ep);
+                  loadEpisode(ep,`${firstResult.id}-episode-${ep}`);
                 }
                 else{
                   //console.log("only query")
@@ -328,7 +328,7 @@ secondscrit();
   data.sources.forEach(source => {
       const sourceElement = document.createElement('source');
       sourceElement.src = source.url;
-      console.log(source.url);
+      //console.log(source.url);
       sourceElement.type = 'application/x-mpegURL';
       sourceElement.setAttribute('res', source.quality);
       player.src(sourceElement);
