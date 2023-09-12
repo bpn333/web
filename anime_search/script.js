@@ -12,11 +12,59 @@ animeUrl.style.display = "none";
 let description;
 let episodes;
 let old = null;
+let providers = [
+  {
+    "search":"https://api.consumet.org/anime/gogoanime/",
+    "info":"https://api.consumet.org/anime/gogoanime/info/",
+    "link":"https://api.consumet.org/anime/gogoanime/watch/"
+  },
+  {
+    "search":"https://api.consumet.org/anime/zoro/",
+    "info":"https://api.consumet.org/anime/zoro/info?id=",
+    "link":"https://api.consumet.org/anime/zoro/watch?episodeId="
+  },
+  {
+    "search":"https://api.consumet.org/anime/enime/",
+    "info":"https://api.consumet.org/anime/enime/info?id=",
+    "link":"https://api.consumet.org/anime/enime/watch?episodeId="
+  },
+  {
+    "search":"https://api.consumet.org/anime/crunchyroll/",
+    "info":"https://api.consumet.org/anime/crunchyroll/info/",
+    "link":"https://api.consumet.org/anime/zoro/watch/"
+  },
+  {
+    "search":"https://api.consumet.org/anime/animepahe/",
+    "info":"https://api.consumet.org/anime/animepahe/info/",
+    "link":"https://api.consumet.org/anime/animepahe/watch/"
+  },
+  {
+    "search":"https://api.consumet.org/anime/animefox/",
+    "info":"https://api.consumet.org/anime/animefox/info?id=",
+    "link":"https://api.consumet.org/anime/animefox/watch?episodeId="
+  },
+  {
+    "search":"https://api.consumet.org/anime/9anime/",
+    "info":"https://api.consumet.org/anime/9anime/info/",
+    "link":"https://api.consumet.org/anime/9anime/watch/"
+  }
+];
+let current_provider=0;
+if(getQueryParams().p){
+  current_provider = getQueryParams().p;
+  document.getElementById("providers").value = current_provider;
+}
+document.getElementById("providers").addEventListener('change', () => {
+  current_provider = document.getElementById("providers").value;
+  updateURL(document.getElementById("providers").value);
+  animeListDiv.innerHTML = "";
+  showAnimes(`${providers[current_provider].search}top-airing`);
+});
 window.addEventListener('popstate', () => {
   location.reload();
 });
 home.addEventListener('click',() =>{
-  updateURL("","");
+  updateURL(current_provider,"","");
   location.reload();
 });
 // Function to read query parameters from the URL
@@ -24,12 +72,13 @@ function getQueryParams() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   return {
+      p: urlParams.get('p'),
       q: urlParams.get('q'),
       ep: urlParams.get('ep')
   };
 }
 if(getQueryParams().q == null & getQueryParams().ep == null){
-  showAnimes("https://api.consumet.org/anime/gogoanime/top-airing");
+  showAnimes(`${providers[current_provider].search}top-airing`);
 }
 
 function showAnimes(url,skip,page=1){
@@ -55,7 +104,7 @@ function showAnimes(url,skip,page=1){
     animeTitle.classList.add("anime-title");
     animeTitle.textContent = anime.title;
     animeTitle.addEventListener('click', () => {
-      updateURL(anime.id,"");
+      updateURL(current_provider,anime.id,"");
       location.reload();
     });
     animeDetails.appendChild(animeTitle);
@@ -92,7 +141,7 @@ searchInput.addEventListener('input', event => {
 
     if (keyword !== '') {
         // Simulate fetching suggestions based on the keyword
-        const apiUrl = `https://api.consumet.org/anime/gogoanime/${keyword}`;
+        const apiUrl = `${providers[current_provider].search}${keyword}`;
         
         fetch(apiUrl)
             .then(response => response.json())
@@ -139,14 +188,14 @@ searchButton.addEventListener('click', () => {
 
 // Function to perform the search
 function performSearch(query) {
-    const apiUrl = `https://api.consumet.org/anime/gogoanime/${query}`;
+    const apiUrl = `${providers[current_provider].search}${query}`;
     animeListDiv.innerHTML = "";    //delete home screen
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
             if (data.results && data.results.length > 0) {
                 firstResult = data.results[0];
-                animeid = `https://api.consumet.org/anime/gogoanime/info/${firstResult.id}`;
+                animeid = `${providers[current_provider].info}${firstResult.id}`;
                 fetch(animeid)
                 .then(response => response.json())
                 .then(data => {
@@ -167,7 +216,7 @@ function performSearch(query) {
                       genreElement.style.color = "green";
                       old = genreElement;
                       animeListDiv.innerHTML = "";
-                      showAnimes(`https://api.consumet.org/anime/gogoanime/genre/${genre.replace(/ /g, '-')}`);
+                      showAnimes(`${providers[current_provider].search}genre/${genre.replace(/ /g, '-')}`);
                     });
                     animeinfo.appendChild(genreElement);
                   });
@@ -175,12 +224,12 @@ function performSearch(query) {
                 if(getQueryParams().ep!=null){
                   //console.log("both",getQueryParams().ep,getQueryParams().q);
                   const ep=getQueryParams().ep;
-                  updateURL(query,ep);
+                  updateURL(current_provider,query,ep);
                   loadEpisode(ep);
                 }
                 else{
                   //console.log("only query")
-                  updateURL(query,"");
+                  updateURL(current_provider,query,"");
                 }
                 //animeUrl.href = firstResult.url;
                 //document.body.style.backgroundImage = `url('${firstResult.image}')`;
@@ -208,21 +257,22 @@ animeUrl.addEventListener('click', () => {
         episodeDiv.textContent = `${firstResult.title} episode ${episode.number}`;
         document.querySelector('.container').appendChild(episodeDiv);
         episodeDiv.addEventListener('click', () => {
-          loadEpisode(episode.number);
+          loadEpisode(episode.number,episode.id);
         });
       });
     }
   }
-function updateURL(newQuery, newEpisode) {
+function updateURL(newprovider,newQuery, newEpisode) {
   let newURL = window.location.origin + window.location.pathname;
 
   if (newQuery) {
-      newURL += '?q=' + newQuery;
+      newURL += '?p=' + newprovider;
   }
-
+  if (newQuery) {
+    newURL += '&q=' + newQuery;
+  }
   if (newEpisode) {
-      newURL += newQuery ? '&' : '?'; // Add '&' if 'q' is present, otherwise '?'
-      newURL += 'ep=' + newEpisode;
+      newURL += '&ep=' + newEpisode;
   }
 
   window.history.pushState({}, '', newURL);
@@ -230,11 +280,12 @@ function updateURL(newQuery, newEpisode) {
   document.title=`${newQuery}-${newEpisode}`;
 }
 
-function loadEpisode(ep){
-  updateURL(firstResult.id,ep);
+function loadEpisode(ep,epid){
+  updateURL(current_provider,firstResult.id,ep);
   //console.log("episode loading ",ep);
   //console.log('Clicked episode number:', episode.number);
-  vidLink = `https://api.consumet.org/anime/gogoanime/watch/${firstResult.id}-episode-${ep}`;
+  vidLink = `${providers[current_provider].link}${epid}`;
+  //console.log(vidLink);
   fetch(vidLink)
   .then(response => response.json())
   .then(data => {
@@ -261,14 +312,14 @@ secondscrit();
     episodes.forEach(episode => {
       if(episode.number == parseInt(ep)+1){
         //console.log(episode.number,"found");
-        updateURL(firstResult.id,parseInt(ep)+1);
+        updateURL(current_provider,firstResult.id,parseInt(ep)+1);
         location.reload();
       }});
   });
   document.getElementById("prevep").addEventListener("click",() =>{
     episodes.forEach(episode => {
       if(episode.number == parseInt(ep)-1){
-      updateURL(firstResult.id,parseInt(ep)-1);
+      updateURL(current_provider,firstResult.id,parseInt(ep)-1);
       location.reload();
     }});
   });
@@ -277,6 +328,7 @@ secondscrit();
   data.sources.forEach(source => {
       const sourceElement = document.createElement('source');
       sourceElement.src = source.url;
+      console.log(source.url);
       sourceElement.type = 'application/x-mpegURL';
       sourceElement.setAttribute('res', source.quality);
       player.src(sourceElement);
@@ -292,7 +344,7 @@ secondscrit();
         player.src({ type: sourceElement.type, src: sourceElement.src });
       } 
       else if(selectedQuality === 'others'){
-        fetch(`https://api.consumet.org/anime/gogoanime/servers/${firstResult.id}-episode-${ep}`).then(response => response.json())
+        fetch(`${providers[current_provider].search}}servers/${epid}`).then(response => response.json())
         .then(data => {
           window.location.href = `${data[0].url}`;
         });
