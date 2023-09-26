@@ -14,11 +14,13 @@
         #input{
             height: 5vh;
             width: 30vw;
-            margin-top: 50px;
-            color: rgb(27, 245, 46);
+            margin: 50px;
+            color: rgb(234, 255, 1);
             text-align: center;
             border: none;
             background-color: transparent;
+            outline: none;
+            font-size: larger;
         }
         #word{
             color: rgb(9, 172, 247);
@@ -39,6 +41,8 @@
         </div>
         <div id="input_box">
             <input id="input" placeholder="type shown word" autocomplete="off">
+        </div>
+        <div id="counter">
         </div>
     </div>
     <script>
@@ -68,10 +72,14 @@
             }
         });
         function show_sentence(word_to_start_from){
+            update_counter();
             document.getElementById("word").innerText = "";
             for (let index = word_to_start_from; index < words.length; index++) {
                 document.getElementById("word").innerText += words[index] + " ";
             }
+        }
+        function update_counter(){
+            document.getElementById("counter").innerText = "Words Typed = "+total_count+" / "+word_limit;
         }
         function update_sentence(){
             fetch('https://api.quotable.io/quotes/random').then(response => response.json()).then(data => {
