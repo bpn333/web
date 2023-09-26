@@ -26,6 +26,8 @@
             color: rgb(9, 172, 247);
             font-size: xx-large;
             white-space: pre;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         button{
             background-color: transparent;
@@ -40,7 +42,7 @@
         <div id="word">
         </div>
         <div id="input_box">
-            <input id="input" placeholder="type shown word" autocomplete="off">
+            <input id="input" placeholder="type shown word" autocomplete="off" autocapitalize="none">
         </div>
         <div id="counter">
         </div>
@@ -79,7 +81,7 @@
             }
         }
         function update_counter(){
-            document.getElementById("counter").innerText = "Words Typed = "+total_count+" / "+word_limit;
+            document.getElementById("counter").innerText = "Words Typed = " + total_count+" / " + word_limit;
         }
         function update_sentence(){
             fetch('https://api.quotable.io/quotes/random').then(response => response.json()).then(data => {
@@ -92,7 +94,7 @@
             var end = new Date();
             var time_taken = (end - start)/1000;
             var word_per_second = total_count/time_taken;
-            document.getElementById("container").textContent = "Congratulation You have achieved "+word_per_second+" words per second or "+word_per_second * 60 +" words per minute";
+            document.getElementById("container").textContent = "Congratulation You have achieved " + word_per_second + " words per second or " + word_per_second * 60 + " words per minute";
             const btn = document.createElement("button");
             document.body.appendChild(btn);
             btn.textContent = "Try Again";
