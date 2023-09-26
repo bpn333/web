@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body{
+            background-color: rgb(22, 18, 18);
+            color: rgb(46, 244, 46);
+            font-size: large;
+            text-align: center;
+            align-items: center;
+        }
+        #input{
+            height: 5vh;
+            width: 30vw;
+            margin-top: 50px;
+            color: rgb(27, 245, 46);
+            text-align: center;
+            border: none;
+            background-color: transparent;
+        }
+        #word{
+            color: rgb(9, 172, 247);
+            font-size: xx-large;
+            white-space: pre;
+        }
+        button{
+            background-color: transparent;
+            color: rgb(239, 41, 1);
+        }
+    </style>
+    <title>typing test</title>
+</head>
+<body>
+    <div id="container">
+        <h1>TYPING TEST</h1>
+        <div id="word">
+        </div>
+        <div id="input_box">
+            <input id="input" placeholder="type shown word" autocomplete="off">
+        </div>
+    </div>
+    <script>
+        var query = new URLSearchParams(window.location.search)
+        var word_limit = 33;
+        if(query.get("limit")){
+            word_limit = query.get("limit");
+        }
+        var start = new Date();
+        var words,count=0,total_count=0;
+        update_sentence();
+        document.getElementById("input").addEventListener("input" ,()=>{
+            if(document.getElementById("input").value == words[count]){
+                document.getElementById("input").value = "";
+                count++;
+                total_count++;
+                if(total_count >= word_limit){
+                    show_results();
+                }
+                else if(count == words.length){
+                    update_sentence();
+                    count = 0;
+                }
+                else{
+                    show_sentence(count);
+                }
+            }
+        });
+        function show_sentence(word_to_start_from){
+            document.getElementById("word").innerText = "";
+            for (let index = word_to_start_from; index < words.length; index++) {
+                document.getElementById("word").innerText += words[index] + " ";
+            }
+        }
+        function update_sentence(){
+            fetch('https://api.quotable.io/quotes/random').then(response => response.json()).then(data => {
+                console.log(data);
+                words = data[0].content.split(" ");
+                show_sentence(0);
+            });
+        }
+        function show_results(){
+            var end = new Date();
+            var time_taken = (end - start)/1000;
+            var word_per_second = total_count/time_taken;
+            document.getElementById("container").textContent = "Congratulation You have achieved "+word_per_second+" words per second or "+word_per_second * 60 +" words per minute";
+            const btn = document.createElement("button");
+            document.body.appendChild(btn);
+            btn.textContent = "Try Again";
+            btn.addEventListener('click', () => {
+                window.location.reload();
+            });
+        }
+    </script>
+</body>
+</html>
