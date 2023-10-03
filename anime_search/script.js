@@ -128,9 +128,9 @@ function showAnimes(url,skip,page=1){
     animeCard.classList.add('anime-card');
     if(skip){
       skip=0;
+      document.getElementById("announcement-container").style.display = "none";
       return;
     }
-
     const animeImage = document.createElement('img');
     animeImage.classList.add('anime-image');
     animeImage.src = anime.image;
@@ -229,6 +229,7 @@ searchButton.addEventListener('click', () => {
 function performSearch(query) {
     const apiUrl = `${providers[current_provider].search}${query}`;
     animeListDiv.innerHTML = "";    //delete home screen
+    document.getElementById("announcement-container").style.display = "none";
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
