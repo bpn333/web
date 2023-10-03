@@ -80,6 +80,45 @@ function getQueryParams() {
 if(getQueryParams().q == null & getQueryParams().ep == null){
   showAnimes(`${providers[current_provider].search}top-airing`);
 }
+//anouncement thing
+fetch('https://api.jsonbin.io/v3/b/651c12d40574da7622b3c412')
+.then(response => response.json())
+.then(data => {
+  jsonData = data.record;
+  //console.log(jsonData);
+  const announcementContainer = document.getElementById('announcement-container');
+
+  const writerIconContainer = document.createElement('div');
+  writerIconContainer.classList.add('writer-icon-container');
+
+  const writerIcon = document.createElement('img');
+  writerIcon.classList.add('writer-icon');
+  writerIcon.src = jsonData.icon;
+
+  const writerName = document.createElement('span');
+  writerName.classList.add('writer-name');
+  writerName.textContent = jsonData.writer;
+
+  const message = document.createElement('p');
+  message.classList.add('message');
+  message.innerHTML = jsonData.message;
+  message.style.color = jsonData.color;
+
+  const htmlElement = document.createElement('div');
+  if (jsonData["html-element"]) {
+  htmlElement.innerHTML = jsonData["html-element"];
+  }
+
+  writerIconContainer.appendChild(writerIcon);
+  announcementContainer.appendChild(writerIconContainer);
+  announcementContainer.appendChild(writerName);
+  announcementContainer.appendChild(document.createElement('br'));
+  announcementContainer.appendChild(message);
+  if (jsonData["html-element"]) {
+  announcementContainer.appendChild(htmlElement);
+  }
+});
+//anouncement thing ends here
 
 function showAnimes(url,skip,page=1){
   fetch(url+`?page=${page}`).then(response => response.json())
@@ -307,7 +346,7 @@ arrow_forward
 <h1>${firstResult.title}-episode-${ep}</h1>
 <p id="description">${description}</p><input id="input" type="text">
 <button id="send">SEND</button><div id="comments"></div>`
-secondscrit();
+comment_script();
   document.getElementById("nextep").addEventListener("click",() =>{
     episodes.forEach(episode => {
       if(episode.number == parseInt(ep)+1){
@@ -324,7 +363,16 @@ secondscrit();
     }});
   });
   var player = videojs('videoplayer'); //it is kind of necessary idk why
-  //console.log(data.sources);
+    //console.log(data.sources);
+    const videoPlayer = document.getElementById('videoplayer');
+
+    videoPlayer.addEventListener('waiting', () => {
+        videoPlayer.pause();
+    });
+    
+    videoPlayer.addEventListener('canplay', () => {
+        videoPlayer.play();
+    });
   data.sources.forEach(source => {
       const sourceElement = document.createElement('source');
       sourceElement.src = source.url;
@@ -366,7 +414,7 @@ secondscrit();
 
 
 //2nd script
-function secondscrit(){
+function comment_script(){
 var deviceIP = "NULL";
 animeid = firstResult.id;
 ids=null;

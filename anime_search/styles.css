@@ -254,7 +254,15 @@ h1{
     display: flex; /* Use flexbox to align items vertically */
     align-items: center; /* Center items vertically within the flex container */
 }
+/* Customize the scrollbar */
+::-webkit-scrollbar {
+    width: 5px;
+    background-color: red;
+}
 
+::-webkit-scrollbar-thumb {
+    background: blue;
+}
 
 /*2nd css*/
 #comments{
@@ -272,4 +280,39 @@ h1{
 #input{
     margin:0vw 30vw;
     margin: 2vw;
+}
+
+/*css for anouncement thing*/
+#announcement-container {
+    background-color: transparent;
+    padding: 10px;
+    text-align: center;
+}
+
+.writer-icon-container {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 50px;
+    margin-right: 10px;
+}
+
+.writer-icon {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.writer-name {
+    font-weight: bold;
+    color: lime;
+}
+
+.message {
+    color: blue;
 }
