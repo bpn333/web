@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<head>
+    <title>XOR encrypt/decrypt</title>
+    <style>
+        body {
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #container {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        table {
+            margin: 0 auto;
+        }
+
+        input {
+            padding: 10px;
+            margin: 5px 0;
+            width: 300px;
+            border: none;
+            background-color: #444;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #ff5722;
+            border: none;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #f44336;
+        }
+
+        #result {
+            margin: 10px 0;
+            background-color: #444;
+            padding: 10px;
+            border-radius: 5px;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <table>
+            <tr>
+                <td><input id="string" placeholder="Enter your text"></td>
+            </tr>
+            <tr>
+                <td><input id="key" placeholder="Enter your key"></td>
+            </tr>
+            <tr>
+                <td><button id="encrypt_decrypt">Encrypt/Decrypt</button></td>
+            </tr>
+            <tr>
+                <td><div id="result"></div></td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        var string = document.getElementById("string");
+        var key = document.getElementById("key");
+        var encrypt_decrypt = document.getElementById("encrypt_decrypt");
+        var result = document.getElementById("result");
+        encrypt_decrypt.addEventListener('click', ()=> {
+            var output="";
+            for(var count=0;count<string.value.length;count++){
+                var charcode = string.value.charCodeAt(count) ^ key.value.charCodeAt(count % key.value.length);
+                output += String.fromCharCode(charcode);
+            }
+            result.innerText = output;
+            copy_text(output);
+        });
+        function copy_text(text){
+            const textToCopy = text;
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
+        }
+    </script>
+</body>
+</html>
