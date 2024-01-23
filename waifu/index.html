@@ -7,6 +7,8 @@
             background-image: url(cyberpunk-city.jpg);
             background-position-x: -1500px;
             background-position-y: -1900px;
+            font-weight: bolder;
+            text-shadow: 2px 3px black;
         }
         #types{
             display: flex;
@@ -32,15 +34,18 @@
             font-size: xx-large;
             border: 3px solid #3fff2d;
             cursor: pointer;
+            transition: all 0.3s;
         }
         .bubble2{
             color: #ff0677;
         }
         .bubble:hover{
             background-color: #00b8ff;
+            transform: translateY(-8px);
         }
         .bubble2:hover{
             background-color: #2635ff;
+            transform: scale(1.3);
         }
         ::-webkit-scrollbar {
             display: none;
