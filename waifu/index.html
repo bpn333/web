@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<head>
+    <title>WAIFU</title>
+    <link rel="icon" type="image/x-icon" href="wifu.jpg">
+    <style>
+        body{
+            background-image: url(cyberpunk-city.jpg);
+            background-size: cover;
+        }
+        #types{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+        #categories{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        #output{
+            display: flex;
+            justify-content: center;
+            margin: 10px;
+        }
+        .bubble{
+            border-radius: 35%;
+            padding: 10px;
+            margin: 10px;
+            color: 	#ff5bf8;
+            font-size: xx-large;
+            border: 3px solid #3fff2d;
+            cursor: pointer;
+        }
+        .bubble2{
+            color: #ff0677;
+        }
+        .bubble:hover{
+            background-color: #00b8ff;
+        }
+        .bubble2:hover{
+            background-color: #2635ff;
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="types"></div>
+    <div id="categories"></div>
+    <div id="output"></div>
+    <script>
+        source = "https://api.waifu.pics/";
+        types = ['sfw', 'nsfw'];
+        categories1 = ['waifu', 'neko', 'shinobu', 'megumi', 'bully', 'cuddle', 'cry', 'hug', 'awoo', 'kiss','lick','pat','smug','bonk','yeet','blush','smile','wave','highfive','handhold','nom','bite','glomp','slap','kill','kick','happy','wink','poke','dance','cringe'];
+        categories2 = ['waifu','neko','trap','blowjob'];
+        type_container = document.getElementById("types");
+        category_container = document.getElementById("categories");
+        output_container = document.getElementById("output");
+        types.forEach(type => {
+            var tmp = document.createElement("span");
+            tmp.className = "bubble";
+            tmp.textContent = type;
+            tmp.addEventListener('click',()=>{
+                category_container.innerHTML = "";
+                output_container.innerHTML = "";
+                categories_selection(type);
+            });
+            type_container.appendChild(tmp);
+        });
+        function categories_selection(type){
+            category = categories1;
+            if (type == types[1]){
+                category = categories2;
+            }
+            category.forEach(cat => {
+                var tmp = document.createElement("span");
+                tmp.className = "bubble bubble2";
+                tmp.textContent = cat;
+                tmp.addEventListener('click',()=>{
+                    output_container.innerHTML = "";
+                    api_url = "";
+                    if (categories1.includes(cat)){
+                        api_url = source + types[0] + '/' + cat;
+                    }
+                    else{
+                        api_url = source + types[1] + '/' + cat;
+                    }
+                    output_show(api_url);
+                });
+                category_container.appendChild(tmp);
+            });
+            function output_show(api_url){
+                fetch(api_url).then(response => response.json()).then(data => {
+                    var tmp = document.createElement("img");
+                    tmp.src = data.url;
+                    tmp.border = "2px solid blue"
+                    output_container.appendChild(tmp);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
