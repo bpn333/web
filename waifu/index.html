@@ -59,13 +59,19 @@
         category_container = document.getElementById("categories");
         output_container = document.getElementById("output");
         types.forEach(type => {
+            previousTMP1 = null;
             var tmp = document.createElement("span");
             tmp.className = "bubble";
             tmp.textContent = type;
             tmp.addEventListener('click',()=>{
                 category_container.innerHTML = "";
                 output_container.innerHTML = "";
+                if (previousTMP1){
+                    previousTMP1.style = '';
+                }
                 categories_selection(type);
+                tmp.style = "background-color: #00b8ff;";
+                previousTMP1 = tmp;
             });
             type_container.appendChild(tmp);
         });
@@ -78,9 +84,15 @@
                 var tmp = document.createElement("span");
                 tmp.className = "bubble bubble2";
                 tmp.textContent = cat;
+                previousTMP2 = null;
                 tmp.addEventListener('click',()=>{
                     output_container.innerHTML = "";
                     api_url = "";
+                    if (previousTMP2){
+                        previousTMP2.style = '';
+                    }
+                    tmp.style = "background-color: #2635ff;"
+                    previousTMP2 = tmp;
                     if (categories1.includes(cat)){
                         api_url = source + types[0] + '/' + cat;
                     }
@@ -95,7 +107,9 @@
                 fetch(api_url).then(response => response.json()).then(data => {
                     var tmp = document.createElement("img");
                     tmp.src = data.url;
-                    tmp.border = "2px solid blue"
+                    tmp.style.border = "2px solid blue"
+                    tmp.style.maxWidth = "90%";
+                    tmp.style.minWidth = "50%";
                     output_container.appendChild(tmp);
                 });
             }
