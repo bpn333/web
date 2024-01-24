@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FACTS</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Grape+Nuts&display=swap');
+            body{
+                background-color: #71b084;
+            }
+            h1{
+                font-family: 'Grape Nuts', cursive;
+                display: flex;
+                justify-content: center;
+                font-size: 55px;
+                text-shadow: 3px 3px #e8e2df;
+                color: #69607d;
+                user-select: none;
+            }
+            #display{
+                height: 70vh;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                flex-wrap: nowrap;
+                position: relative;
+            }
+            #source{
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                text-align: center;
+                font-size: 25px;
+                margin: 3px;
+                padding: 3px;
+                user-select: none;
+                transition: all 0.3s;
+                text-decoration: none;
+            }
+            #source:hover{
+                scale: 2;
+                transform: translateY(-10px);
+            }
+            .word{
+                font-family: 'Grape Nuts', cursive;
+                margin: 10px;
+                font-size: 50px;
+                font-weight: bolder;
+                position: absolute;
+                transition: all 0.3s ease-out;
+                padding: 3px;
+                user-select: none;
+                animation: cool 8s ease-in forwards;
+            }
+            .word:hover{
+                background-color: lime;
+            }
+
+            @keyframes cool {
+                from{
+                    right: -30%;
+                    scale: 0.8;
+                    color: black;
+                    text-shadow: 2px 2px rgb(255, 255, 255);
+                }
+                to{
+                    right: 130%;
+                    scale: 2;
+                    color: rgb(144, 240, 255);
+                    text-shadow: 1px 1px black;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Random Facts</h1>
+        <div id="display"></div>
+        <a id="source"></a>
+        <script>
+            display = document.getElementById("display");
+            source = document.getElementById("source");
+            function get_fact(){
+                display.innerHTML = "";
+                fetch("https://uselessfacts.jsph.pl/api/v2/facts/random").then(r=>r.json()).then(data =>{
+                    source.textContent = data.source;
+                    source.href = "https://www."+data.source;
+                    words = data.text.split(' ');
+                    delayedLoop(0,words);
+                })
+            }
+            function delayedLoop(index, array) {
+                if (index < array.length) {
+                    var tmp = document.createElement("span");
+                    tmp.className = "word";
+                    tmp.textContent = array[index];
+                    display.appendChild(tmp);
+                    index++;
+                    setTimeout(() => {
+                    delayedLoop(index, array);
+                    }, 1000);
+                }
+                else{
+                    setTimeout(() => {
+                        get_fact();
+                    }, 6000);
+                }
+            }
+            get_fact();
+        </script>
+    </body>
+</html>
