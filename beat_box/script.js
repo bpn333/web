@@ -1,12 +1,12 @@
 const sounds = [
-    '/sounds/drum_kick_1.wav',
-    '/sounds/snare_2.wav',
-    '/sounds/closed_hat_3.wav',
-    '/sounds/open_hat_4.wav',
-    '/sounds/high_tom_5.wav',
-    '/sounds/percussive_6.wav',
-    '/sounds/fx_7.wav',
-    '/sounds/synth_8.wav',
+    'sounds/drum_kick_1.wav',
+    'sounds/snare_2.wav',
+    'sounds/closed_hat_3.wav',
+    'sounds/open_hat_4.wav',
+    'sounds/high_tom_5.wav',
+    'sounds/percussive_6.wav',
+    'sounds/fx_7.wav',
+    'sounds/synth_8.wav',
 ]
 var sounds_play_state = []
 var start_sound = false
