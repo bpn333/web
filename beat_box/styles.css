@@ -1,0 +1,52 @@
+body{
+    background-color: rgb(40, 35, 35);
+}
+#container{
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+}
+.row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex: 1;
+}
+.box{
+    flex: 1;
+    height: auto;
+    width: auto;
+    padding: 8px;
+    background-color: blueviolet;
+}
+#top{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+#equalizer {
+    display: flex;
+    align-items: flex-end;
+    width: 30vw;
+    height: 5vh;
+    background-color: transparent;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+.bar {
+    flex: 1;
+    height: 5px;
+    margin: 0 2px;
+    background-color: #3498db;
+}
+.title{
+    font-size: 5vh;
+    font-weight: bolder;
+    color: wheat;
+    transition: transform 0.5s;
+}
+.title:hover{
+    transform: translateY(-10px);
+    cursor: pointer;
+}
