@@ -1,12 +1,12 @@
 const sounds = [
-    'sounds/drum_kick_1.wav',
-    'sounds/snare_2.wav',
-    'sounds/closed_hat_3.wav',
-    'sounds/open_hat_4.wav',
-    'sounds/high_tom_5.wav',
-    'sounds/percussive_6.wav',
-    'sounds/fx_7.wav',
-    'sounds/synth_8.wav',
+    'https://github.com/bipin333/web/blob/master/beat_box/sounds/drum_kick_1.wav?raw=true',
+    'https://github.com/bipin333/web/blob/master/beat_box/sounds/snare_2.wav?raw=true',
+    'https://github.com/bipin333/web/blob/master/beat_box/sounds/closed_hat_3.wav?raw=true',
+    'https://github.com/bipin333/web/blob/master/beat_box/sounds/open_hat_4.wav?raw=true',
+    'https://github.com/bipin333/web/blob/master/beat_box/sounds/high_tom_5.wav?raw=true',
+    'https://github.com/bipin333/web/blob/master/beat_box/sounds/percussive_6.wav?raw=true',
+    'https://github.com/bipin333/web/blob/master/beat_box/sounds/fx_7.wav?raw=true',
+    'https://github.com/bipin333/web/blob/master/beat_box/sounds/synth_8.wav?raw=true',
 ]
 var sounds_play_state = []
 var start_sound = false
