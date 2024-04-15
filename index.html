@@ -40,7 +40,7 @@
     </header>
     <div class="container"></div>
     <script>
-        const apiUrl = `https://api.github.com/repos/bipin333/web/contents`;
+        const apiUrl = `https://api.github.com/repos/bpn333/web/contents`;
         fetch(apiUrl)
         .then(response => response.json())
         .then(contents => {
@@ -53,7 +53,7 @@
                 SiteDiv.textContent = `${folder.name}`;
                 document.querySelector('.container').appendChild(SiteDiv);
                 SiteDiv.addEventListener('click', () =>{
-                    window.location.href = `https://bipin333.github.io/web/${folder.name}`;
+                    window.location.href = `https://bpn333.github.io/web/${folder.name}`;
                 });
             }
             });
